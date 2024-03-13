@@ -23,9 +23,14 @@ public class Task3P2 {
 
         driver.get("https://demoqa.com");
 
-        driver.findElement(By.className("fc-cta-consent")).click();
-
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("fc-dialog-overlay")));
+        try {
+            WebElement consentButton = driver.findElement(By.className("fc-cta-consent"));
+            consentButton.click();
+            // Wait for the consent modal to disappear
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("fc-dialog-overlay")));
+        } catch (NoSuchElementException e) {
+            System.out.println("Consent button not present, proceeding without clicking.");
+        }
 
         WebElement elementsElement = driver.findElement(By.xpath("//div[@class='card mt-4 top-card']//h5[text()='Elements']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", elementsElement);
@@ -60,7 +65,6 @@ public class Task3P2 {
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", nextElement);
 
-        // Delete all elements on page 2
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("rt-tbody")));
 
         java.util.List<WebElement> deleteButtons = driver.findElements(By.xpath("//span[@data-toggle='tooltip' and contains(@title, 'Delete')]"));
@@ -75,5 +79,7 @@ public class Task3P2 {
         WebElement page = driver.findElement(By.xpath("//input[@aria-label='jump to page']"));
         page.clear();
         page.sendKeys("1");
+
+        driver.quit();
     }
 }

@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
@@ -53,14 +54,15 @@ public class Task4 {
         checkout();
     }
 
-//    @After
-//    public void tearDown(){
-//        if(testDriver != null){
-//            testDriver.quit();
-//        }
-//        if(userDriver != null){
-//            userDriver.quit();
-//    }
+    @After
+    public void tearDown() {
+        if (testDriver != null) {
+            testDriver.quit();
+        }
+        if (userDriver != null) {
+            userDriver.quit();
+        }
+    }
 
     private void createUser(){
         user = new User();
@@ -85,6 +87,7 @@ public class Task4 {
         testDriver.findElement(By.id("Password")).sendKeys(user.getPassword());
         testDriver.findElement(By.cssSelector("input[value='Log in']")).click();
     }
+
     private String[] readFromFile(String fileName){
         try {
             BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/"+fileName));

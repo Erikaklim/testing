@@ -1,17 +1,13 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class Task3P1 {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         final Duration DURATION = Duration.ofSeconds(10);
 
         WebDriverManager.chromedriver().setup();
@@ -21,9 +17,14 @@ public class Task3P1 {
 
         driver.get("https://demoqa.com/");
 
-        driver.findElement(By.className("fc-cta-consent")).click();
-
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("fc-dialog-overlay")));
+        try {
+            WebElement consentButton = driver.findElement(By.className("fc-cta-consent"));
+            consentButton.click();
+            // Wait for the consent modal to disappear
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("fc-dialog-overlay")));
+        } catch (NoSuchElementException e) {
+            System.out.println("Consent button not present, proceeding without clicking.");
+        }
 
         WebElement widgetsElement = driver.findElement(By.xpath("//div[@class='card mt-4 top-card']//h5[text()='Widgets']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", widgetsElement);
@@ -45,6 +46,6 @@ public class Task3P1 {
         System.out.println("Progress bar value after reset: " + progressBarValue);
 
         driver.quit();
-
     }
 }
+
