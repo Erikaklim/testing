@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.time.Duration;
 import java.util.Arrays;
 
-public class Task4 {
+public class TestTask4 {
 
     private final Duration DURATION = Duration.ofSeconds(10);
     private WebDriver userDriver, testDriver;
