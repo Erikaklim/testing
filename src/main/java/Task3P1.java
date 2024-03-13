@@ -13,6 +13,7 @@ public class Task3P1 {
         WebDriverManager.chromedriver().setup();
 
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         WebDriverWait wait = new WebDriverWait(driver, DURATION);
 
         driver.get("https://demoqa.com/");
